@@ -100,6 +100,7 @@ class character:
         dy = 0
         gravity = 1
         
+        
         #controles
         if self.live and target.live:
             if key[left] and not ((key[attack1] or key[attack2]) and self.jump) and not self.defend:
@@ -145,20 +146,22 @@ class character:
         
         if self.attack_grid:
             if key[attack1] or key[attack2]:        
-                if key[attack1] and not key[attack2]:
+                if key[attack1] and not key[attack2] and not key[attack3]:
                     self.attack(target,punch=True, kick=False)
                     self.attack_type = 1
                     self.attack_accept = True
-                if key[attack2] and not key[attack1]:
+                if key[attack2] and not key[attack1] and not key[attack3]:
                     self.attack(target, punch=False,kick=True)
                     self.attack_type = 2
                     self.attack_accept = True
                 
-                if not self.jump and key[attack2]:
+                if not self.jump and key[attack2] and not key[attack1]:
                     self.attack(target, punch=False,kick=True)
                     self.attack_type = 3
+                    self.attack_accept = True
+                    
 
-            if key[attack3] and not self.damage:
+            if key[attack3] and not key[attack1] and not key[attack2]:
                 self.defend = True
             else:
                 self.defend = False
@@ -277,6 +280,7 @@ class character:
             
                 if kick_attack.colliderect(target) and target.defend:
                     target.life -= 3
+                    target.damage = True
                     if self.attack_grid:
                         defesa()
                         self.attack_grid = False

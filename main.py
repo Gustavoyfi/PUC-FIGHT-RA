@@ -324,7 +324,6 @@ while start:
                         variavel = 3
                         start_mapa = False
                     elif event.key == pygame.K_ESCAPE:
-
                         time.sleep(0.5)
                         variavel = 1
                         start_mapa = False
@@ -369,14 +368,23 @@ while start:
         round()
         start_jogo = True
         while counter<=3 and start_jogo:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.type == pygame.K_ESCAPE:
+                        start_jogo = False
+                        variavel = 0
+
 
             fight_scene = pygame.transform.scale(mapas[selected_index], (largura, altura))
             tela.blit(fight_scene, (0,0))
 
             
             #adicionando movimento e limite na tela
-            player_1.move(pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_k, pygame.K_l,pygame.K_j, player_2)
-            player_2.move(pygame.K_UP,pygame.K_LEFT,pygame.K_RIGHT, pygame.K_1,pygame.K_2,pygame.K_3,player_1)
+            player_1.move(pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_1,pygame.K_2,pygame.K_3, player_2)
+            player_2.move(pygame.K_UP,pygame.K_LEFT,pygame.K_RIGHT, pygame.K_k, pygame.K_l,pygame.K_j,player_1)
 
 
             #atualizando sprite
@@ -426,14 +434,6 @@ while start:
                 else:
                     vencedor = nomes[selected_index_p2]
             
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.type == pygame.K_ESCAPE:
-                        start_jogo = False
-                        variavel = 0
 
             Clock.tick(60)
             pygame.display.update()
